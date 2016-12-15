@@ -1,0 +1,43 @@
+body {
+    margin:0px;
+}
+
+header {
+    padding:1em;
+    color:#bbb;
+    background-color: #333;
+    margin-bottom: 2em;
+}
+header:after {
+  clear: both;
+}
+
+div.highlighter-rouge {
+    white-space: pre;
+    margin-bottom:1em;
+}
+
+@media screen {
+    section.content {
+        margin:2em;
+    }
+
+    div.highlighter-rouge {
+        background: #151515; color: #f5f5f5;
+
+        padding:10px;
+        border-radius:15px;
+    }
+}
+
+
+@media print {
+    header {
+        display:none;
+    }
+
+    /* Indent code blocks since there is no longer a background color */
+    div.highlighter-rouge {
+        margin-left:2em;
+    }
+}

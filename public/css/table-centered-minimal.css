@@ -1,0 +1,24 @@
+#content table {
+    border-collapse:collapse;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:2em;
+}
+#content table th, #content table td {
+    padding-left:10px;
+    padding-right:10px;
+}
+#content table th {
+    border-bottom:1px solid black;
+}
+#content table td {
+}
+#content table tr th:first-child, #content table tr td:first-child {
+    text-align:left;
+}
+#content table td {
+    text-align:center;
+}
+#content table tr th:last-child, #content table tr td:last-child {
+    text-align:right;
+}

@@ -1,0 +1,126 @@
+/* Anything with font-family should be at the top */
+body {
+    font-family:"Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size:12pt;
+    color:#444;
+}
+
+div.highlighter-rouge  {
+    font-family: Menlo, Consolas, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", monospace;
+    /*font-family: Consolas, monospace;*/
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.title {
+    font-family:Georgia, Times, Times New Roman, Georgia;
+    font-size:2.5em;
+    text-align:center;
+    text-rendering: optimizelegibility;
+    font-weight:bold;
+    letter-spacing:-1px;
+    margin-bottom:1em;
+}
+
+h1,h2,h3 {
+    font-family:serif;
+}
+
+a {
+    color: rgb(51, 152, 181);
+    text-decoration:none;
+}
+p {
+    margin-top:0px;
+    margin-bottom:1em;
+}
+h1 {
+    font-size:1.6em;
+    margin-top:0em;
+    margin-bottom:0.8em;
+}
+h2 {
+    font-size:1.5em;
+    margin-top:1.5em;
+    margin-bottom:0.5em;
+    font-style:italic;
+    /*text-transform: uppercase;*/
+}
+h3 {
+    font-size:1.3em;
+    margin-top:1.3em;
+    /*margin-bottom:-0.5em;*/
+    /*font-family:Gill Sans, Verdana;*/
+    /*font-variant: small-caps;*/
+}
+
+blockquote {
+  font: 14px/22px normal helvetica, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 50px;
+  padding-left: 15px;
+  border-left: 3px solid #ccc;
+}
+
+
+#content p, #content ul {
+    line-height: 1.6;
+}
+#content ul {
+    margin-top:0em;
+}
+#content ul li p { /*workaround for redcarpet which inserts p tags in li*/
+    margin:0em;
+}
+#content ul ul {
+    margin-bottom:0.5em;
+}
+
+@media print {
+    body {
+        font-size:10pt;
+    }
+
+    #heading {
+        margin-top:0em;
+    }
+
+    h1,h2,h3,h4,h5 {
+        page-break-after: avoid;
+    }
+    table, figure {
+        page-break-inside: avoid;
+    }
+
+    @page {
+        counter-increment: page;
+        counter-reset: page 1;
+        @bottom-right {
+            content: "Page " counter(page);
+        }
+    }
+
+    @page {
+        size: letter portrait;
+        /*margin:4.0cm;*/
+    }
+    body {
+        margin:1cm;
+    }
+
+    @page:right {
+        @bottom-left {
+            margin: 10pt 0 30pt 0;
+            border-top: .25pt solid #666;
+            content: "My book";
+            font-size: 9pt;
+            color: #333;
+        }
+    }
+
+    /* This enables <div class="page-break"/> tags to be added after the fact */
+    .page-break {
+        page-break-after: always;
+    }
+}
