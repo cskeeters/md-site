@@ -1,4 +1,4 @@
-This is a web application that uses [kramdown](https://kramdown.gettalong.org/)/[Ruby](https://www.ruby-lang.org/) to dynamically render documentation formated in a user-specified flavor of [Markdown](https://daringfireball.net/projects/markdown/syntax).
+This is a web application that uses [kramdown](https://kramdown.gettalong.org/)/[Ruby](https://www.ruby-lang.org/) to dynamically render documentation formatted in a user-specified flavor of [Markdown](https://daringfireball.net/projects/markdown/syntax).
 
 ![Screenshot of md-site](https://raw.githubusercontent.com/cskeeters/i/master/md-doc-demo.png)
 
