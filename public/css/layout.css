@@ -2,13 +2,13 @@ body {
     margin:0px;
 }
 
-header {
+nav {
     padding:1em;
     color:#bbb;
     background-color: #333;
     margin-bottom: 2em;
 }
-header:after {
+nav:after {
   clear: both;
 }
 
@@ -18,7 +18,7 @@ div.highlighter-rouge {
 }
 
 @media screen {
-    section.content {
+    .content {
         margin:2em;
     }
 

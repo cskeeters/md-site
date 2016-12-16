@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title><%= @converter.options[:SITE_TITLE] %></title>
     <base href="<%=@converter.options[:SITE_PREFIX]%>/">
@@ -19,17 +20,19 @@
 </head>
 <body class="wrap">
     <header>
-        <div style="float:right">
-            <form action='<%=@converter.options[:SITE_PREFIX]%>/search'>
-            Search <input id="search" tabindex="-1" type='text' name='q' value='<%=@converter.options[:search]%>' placeholder='Search (press enter)'/>
-            </form>
-        </div>
-        <div>
-            List by: <a id="alpha" tabindex="-1" href="<%=@converter.options[:SITE_PREFIX]%>/">Alphabetical</a> | <a id="mtime" tabindex="-1" href="<%=@converter.options[:SITE_PREFIX]%>/mtime">Modified Time</a>
-        </div>
+        <nav>
+            <div style="float:right">
+                <form action='<%=@converter.options[:SITE_PREFIX]%>/search'>
+                Search <input id="search" tabindex="-1" type='text' name='q' value='<%=@converter.options[:search]%>' placeholder='Search (press enter)'/>
+                </form>
+            </div>
+            <div>
+                List by: <a id="alpha" tabindex="-1" href="<%=@converter.options[:SITE_PREFIX]%>/">Alphabetical</a> | <a id="mtime" tabindex="-1" href="<%=@converter.options[:SITE_PREFIX]%>/mtime">Modified Time</a>
+            </div>
+        </nav>
     </header>
 
-    <section class="content">
+    <main class="content">
 
         <div id="content" class="grid unit whole">
 
@@ -42,6 +45,6 @@
             <!--end markdown -->
 
         </div>
-    </section>
+    </main>
 </body>
 </html>
