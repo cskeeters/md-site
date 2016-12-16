@@ -57,6 +57,9 @@ Save this in /etc/httpd/sites or /etc/http/extras and make sure it's included in
 
         # Title of the index and search pages
         SetEnv SITE_TITLE "Example Documentation"
+
+        # Page that will load as the index
+        SetEnv HOME_PAGE "IndexPage"
     </VirtualHost>
 
     # Can have multiple VirtualHost(s) using the same application
@@ -72,6 +75,7 @@ Save this in /etc/httpd/sites or /etc/http/extras and make sure it's included in
         SetEnv KRAMDOWN_PARSER "MetadataGFM"
         SetEnv SHOW_DEBUG "False"
         SetEnv SITE_TITLE "Example Notes"
+        SetEnv HOME_PAGE "IndexPage"
     </VirtualHost>
 
     <Directory "/Library/WebServer/md-site/public">
@@ -102,10 +106,12 @@ Save this in /etc/httpd/sites or /etc/http/extras and make sure it's included in
         # B  : Escape non-alphanumeric characters in backreferences before applying the transformation - Keep url encoding
         # PT : Don't run the result through the RewriteRules again
 
-        RewriteRule mtime$ index.rb?sort=mtime [L,PT]
+        RewriteRule alpha$ list.rb [L,PT]
+        RewriteRule mtime$ list.rb?sort=mtime [L,PT]
         RewriteRule search$ search.rb [L,PT]
 
         RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png)$ [NC]
-        RewriteRule ^([^\.]+)$ md2html.rb?file=$1 [B,L,PT]
-        RewriteRule ^([^\.]+.md)$ md2html.rb?file=$1 [B,L,PT]
+        RewriteRule ^/$ index.rb?file=HOME_PAGE [B,L,PT]
+        RewriteRule ^([^\.]+)$ index.rb?file=$1 [B,L,PT]
+        RewriteRule ^([^\.]+.md)$ index.rb?file=$1 [B,L,PT]
     </Directory>

@@ -10,6 +10,7 @@ def get_config()
     config["PAGE_DIR"] = ENV["PAGE_DIR"]
     config["KRAMDOWN_PARSER"] = ENV["KRAMDOWN_PARSER"]
     config["SITE_TITLE"] = ENV["SITE_TITLE"]
+    config["HOME_PAGE"] = ENV["HOME_PAGE"]
     return config
 end
 
