@@ -6,7 +6,6 @@ begin
     require 'kramdown'
     require_relative 'md_common'
 
-
     def get_markdown(param, config)
         file = ""
 
@@ -46,8 +45,8 @@ begin
         title = file.gsub(/.md$/, '')
 
         title = title.gsub(/-/, ' ')
-        title = title.split.map(&:capitalize).join(' ')
         title = title.gsub(/([A-Z][a-z])/, ' \1').strip
+        title = title.split.map { |word| word[0].upcase+word[1..99999] }.join(' ')
 
         doc.root.metadata["title"] = title
     end
