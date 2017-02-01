@@ -26,6 +26,7 @@ The is defined by the KRAMDOWN_PARSER environment varible.  If MetadataGFM is us
 
 * cgi_module
 * expires_module
+* rewrite_module
 
 ### Write configuration
 
