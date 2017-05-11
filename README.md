@@ -20,6 +20,16 @@ The is defined by the KRAMDOWN_PARSER environment varible.  If MetadataGFM is us
 
     gem install kramdown kramdown-metadata-parsers rouge
 
+## Offline Installation
+
+Download the required gems from a computer with internet access.  This command downloads the `.gem` files in the current directory.
+
+    gem fetch kramdown kramdown-metadata-parsers rouge
+
+Copy the `.gem` files to the computer without internet access and install.
+
+    gem install -f --local *.gem
+
 ## Apache Configuration
 
 ### Enable Modules
