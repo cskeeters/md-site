@@ -1,15 +1,12 @@
 body {
-    counter-reset: h1counter;
-    counter-reset: h2counter;
-    counter-reset: h3counter;
+    counter-reset: h1counter h2counter h3counter;
 }
 h1 {
     counter-increment: h1counter;
+    counter-reset: h2counter h3counter;
 }
 h1:before {
     content: counter(h1counter) ".\0000a0\0000a0";
-    counter-reset: h2counter;
-    counter-reset: h3counter;
 }
 h2 {
     counter-increment: h2counter;
