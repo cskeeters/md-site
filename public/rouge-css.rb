@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 
 # Some pygment names might be missing from colorization.  For example 'cd' in
 # bash was being span'ed with 'nb', but the Base16 render method was not
