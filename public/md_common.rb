@@ -1,3 +1,5 @@
+require 'rouge'
+
 def send_html(content)
     length=content.length
     response = "Content-type: text/html; charset=utf-8\nContent-Length: #{length}\n\n#{content}"
@@ -21,6 +23,15 @@ def get_kramdown_options(config)
 
     #rouge syntax_highlighter outputs pygments style html with a highlight
     options[:syntax_highlighter] = 'rouge'
+
+    # While Rouge comes with many formatters, using them through kramdown limits the
+    # availibity and the configurability of the formatters
+    # https://kramdown.gettalong.org/syntax_highlighter/rouge.html
+
+    sho = Hash.new
+    # HTMLLegacy enables PRE and CODE tags after div
+    sho[:formatter] = Rouge::Formatters::HTMLLegacy
+    options[:syntax_highlighter_opts] = sho
 
     options[:hard_wrap] = true
     options[:smart_quotes] = ["apos", "apos", "quot", "quot"]

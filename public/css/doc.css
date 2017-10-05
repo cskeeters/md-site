@@ -5,6 +5,15 @@ body {
     color:#333;
 }
 
+div.highlighter-rouge pre {
+    font-family: inherit;
+    margin: 0 0;
+}
+
+div.highlighter-rouge pre code {
+    font-family: inherit;
+}
+
 div.highlighter-rouge  {
     font-family: Menlo, Consolas, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", monospace;
     /*font-family: Consolas, monospace;*/
