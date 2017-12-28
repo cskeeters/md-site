@@ -14,6 +14,9 @@ begin
         entries = entries.sort_by do |entry|
             File.mtime(File.join(config["PAGE_DIR"],entry)).to_i * -1
         end
+    else
+        # sort by name
+        entries.sort!
     end
 
     markdown = ""
