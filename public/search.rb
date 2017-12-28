@@ -18,7 +18,7 @@ begin
         matches = Set.new
 
         #for match in `ls -1 #{config["PAGE_DIR"]}/*'#{cgi["q"]}'*`.split
-        for match in Dir.glob(File.join(config["PAGE_DIR"], "*#{cgi["q"]}*"))
+        for match in Dir.glob(File.join(config["PAGE_DIR"], "*#{cgi["q"]}*"), File::FNM_CASEFOLD)
             markdown += "1. [#{File.basename(match)}](#{File.basename(match)})\n"
             matches.add(match)
         end
