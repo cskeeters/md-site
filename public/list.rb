@@ -14,9 +14,11 @@ begin
         entries = entries.sort_by do |entry|
             File.mtime(File.join(config["PAGE_DIR"],entry)).to_i * -1
         end
+        subtitle="Modified Time"
     else
         # sort by name
         entries.sort!
+        subtitle="Alphabetical"
     end
 
     markdown = ""
@@ -31,7 +33,7 @@ begin
 
     # Translate filename (LinuxCommands) into default title (Linux Commands)
     if doc.root.metadata["title"] == nil
-        doc.root.metadata["title"] = config["SITE_TITLE"]
+        doc.root.metadata["title"] = "#{config["SITE_TITLE"]} - #{subtitle}"
     end
 
     # Convert Markdown to HTML

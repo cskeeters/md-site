@@ -42,7 +42,7 @@ begin
 
     # Translate filename (LinuxCommands) into default title (Linux Commands)
     if doc.root.metadata["title"] == nil
-        doc.root.metadata["title"] = config["SITE_TITLE"]
+        doc.root.metadata["title"] = config["SITE_TITLE"]+" - Search"
     end
 
     # Convert Markdown to HTML
