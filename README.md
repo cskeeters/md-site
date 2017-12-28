@@ -16,6 +16,10 @@ When focused in the body of the browser, the following keys are bound:
 
 The is defined by the KRAMDOWN_PARSER environment varible.  If MetadataGFM is used, then the syntax follows [GitHub Flavored Markdown](https://help.github.com/articles/basic-writing-and-formatting-syntax/), and supports custom titles via [Jekyll-style front matter](https://jekyllrb.com/docs/frontmatter/).
 
+# Static Generation
+
+    ./gen_static -f doc -o static_output -h IndexPage -t "Documentation Title"
+
 # Installation
 
     gem install kramdown kramdown-metadata-parsers rouge

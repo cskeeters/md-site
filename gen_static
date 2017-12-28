@@ -1,0 +1,276 @@
+#!/usr/bin/env ruby
+
+require 'getoptlong'
+require 'kramdown'
+require 'rouge'
+require 'erb'
+require 'json'
+require 'set'
+
+
+def write_rouge_css()
+    rougecss = Rouge::Themes::Base16.mode(:dark).render(scope: 'div.highlighter-rouge')
+    outputpath = "#{@output}/css/rouge.css"
+    File.open(outputpath, 'w') { |file| file.write(rougecss) }
+end
+
+
+def init_output()
+    ret = `mkdir -p   #{@output}/`
+    ret = `cp -rp public/css #{@output}/`
+    ret = `cp -rp public/js  #{@output}/`
+
+    write_rouge_css()
+end
+
+
+def get_markdown(filepath)
+    if not File.file?(filepath)
+        raise "Error: File '#{filepath}' does not exist"
+    end
+
+    markdown = File.read(filepath, :encoding => 'utf-8')
+    return markdown
+end
+
+
+def get_keywords(markdown)
+    words = markdown.split(/\W+/)
+    keywords = Set.new()
+    words.each do |word|
+        if word =~ /\w+/
+            keywords.add(word.downcase)
+        end
+    end
+    return keywords.to_a
+end
+
+
+def get_kramdown_options()
+    options={:template => @template}
+
+    options[:input] = @parser
+
+    #rouge syntax_highlighter outputs pygments style html with a highlight
+    options[:syntax_highlighter] = 'rouge'
+
+    # While Rouge comes with many formatters, using them through kramdown limits the
+    # availibity and the configurability of the formatters
+    # https://kramdown.gettalong.org/syntax_highlighter/rouge.html
+
+    sho = Hash.new
+    # HTMLLegacy enables PRE and CODE tags after div
+    sho[:formatter] = Rouge::Formatters::HTMLLegacy
+    options[:syntax_highlighter_opts] = sho
+
+    options[:hard_wrap] = true
+    options[:smart_quotes] = ["apos", "apos", "quot", "quot"]
+
+    return options
+end
+
+def set_template_params()
+    # Set the class variables for Object
+    # Since the ERB template is run from the Kramdown::Document,
+    # This is an easy way to set simple to use variables
+    @@site_prefix = @site_prefix
+    @@site_title = @site_title
+
+    # hijack this variable to insert date for versioning purposes
+    @@base_tag = "<meta name='date' content='#{Time::now().to_s}'>"
+    @@home = @home
+    @@home_url = @home
+    @@alpha_url = "alpha"
+    @@mtime_url = "mtime"
+    @@search_url = "search"
+    # Search will be populated by javascript in statically gen search
+    @@search = ""
+end
+
+
+def to_title(file)
+    # Strip .md if it exists
+    title = file.gsub(/.md$/, '')
+
+    title = title.gsub(/-/, ' ')
+    title = title.gsub(/([A-Z][a-z])/, ' \1').strip
+    title = title.split.map { |word| word[0].upcase+word[1..99999] }.join(' ')
+    return title
+end
+
+def write_special(filenames, options, name, subtitle)
+    markdown = ""
+    filenames.each do |filename|
+        markdown << "1. [#{filename}](#{filename})\n"
+    end
+
+    doc = Kramdown::Document.new(markdown, options)
+
+    # Translate filename (LinuxCommands) into default title (Linux Commands)
+    doc.root.metadata["title"] = "#{@title} - #{subtitle}"
+
+    # Write HTML
+    outputpath = "#{@output}/#{name}"
+    File.open(outputpath, 'w') { |file| file.write(doc.to_html) }
+end
+
+# Search helpers
+class MockConverter
+    attr_accessor :options
+    attr_accessor :root
+end
+class MockRoot
+    attr_accessor :metadata
+end
+
+# Search helper
+# FIXME options may not be necessary with new template
+def gen_converter(options)
+    converter = MockConverter.new()
+    converter.options = options
+    root = MockRoot.new()
+    root.metadata = {"title" => "#{@title} - Search"}
+    converter.root = root
+    return converter
+end
+
+# Search helper
+def gen_json(filenames, keywords)
+    files = []
+    filenames.each do |filename|
+        files.push({:name => filename, :keywords => keywords[filename]})
+    end
+
+    data = {"files" => files}
+    return data.to_json
+end
+
+
+def write_search(options, filenames, keywords)
+
+    # Mock converter for kramdown template
+    @converter = gen_converter(options)
+
+    # json data about files
+    files_json = gen_json(filenames, keywords)
+
+    @body = <<-EOF
+
+                <div id="results"></div>
+
+                <script src="js/search.js"></script>
+
+                <script id="data" type="application/json">
+                    #{files_json}
+                </script>
+    EOF
+
+    renderer = ERB.new(File.read(@template))
+    search_data = renderer.result()
+    outputpath = "#{@output}/search"
+    File.open(outputpath, 'w') { |file| file.write(search_data) }
+end
+
+def set_opts()
+    opts = GetoptLong.new(
+        [ '--folder', '-f', GetoptLong::REQUIRED_ARGUMENT ],
+        [ '--output', '-o', GetoptLong::REQUIRED_ARGUMENT ],
+        [ '--title',  '-t', GetoptLong::OPTIONAL_ARGUMENT ],
+        [ '--parser', '-p', GetoptLong::OPTIONAL_ARGUMENT ],
+        [ '--home',   '-h', GetoptLong::OPTIONAL_ARGUMENT ])
+
+    @template = 'public/template.erb'
+    @folder = nil
+    @output = nil
+    @title = 'Documentation'
+    @parser = 'MetadataGFM'
+    @home = 'Index'
+    opts.each do |opt, arg|
+        case opt
+            when '--folder'
+                @folder = arg
+            when '--output'
+                @output = arg
+            when '--title'
+                if arg != ''
+                    @title = arg
+                end
+            when '--parser'
+                if arg != ''
+                    @name = arg
+                end
+            when '--home'
+                if arg != ''
+                    @home = arg
+                end
+        end
+    end
+end
+
+def check_opts()
+    # For some reason GetoptLong does not handle REQUIRED_ARGUMENT
+    # Checking manually
+    if @folder == nil
+        raise "folder must be specified"
+    end
+    if @output == nil
+        raise "output must be specified"
+    end
+    if @output == ''
+        raise "output must be specified"
+    end
+    if @output == '/'
+        raise "output must not be root"
+    end
+    if @output == ENV['HOME']
+        raise "output must not be home"
+    end
+end
+
+## main ##
+
+set_opts()
+check_opts()
+set_template_params()
+
+init_output()
+
+options = get_kramdown_options()
+
+filenames = []
+keywords = {}
+
+Dir["#{@folder}/*"].each do |filepath|
+    # Skip Folders
+    next if File.directory? filepath
+
+    file = File.basename(filepath)
+    filenames.push(file)
+    outputpath = "#{@output}/#{file}"
+
+    puts "Writing: #{outputpath}"
+
+    markdown = get_markdown(filepath)
+    keywords[file] = get_keywords(markdown)
+
+    doc = Kramdown::Document.new(markdown, options)
+
+    @@page_title = doc.root.metadata["title"]
+    if @@page_title == nil
+        @@page_title = to_title(file)
+    end
+
+    # Write HTML
+    File.open(outputpath, 'w') { |file| file.write(doc.to_html) }
+end
+
+puts "Writing alpha"
+filenames.sort!
+write_special(filenames, options, "alpha", "Alphabetical")
+
+puts "Writing mtime"
+filenames.sort_by! { |filename| - File.mtime("#{@folder}/#{filename}").to_i }
+write_special(filenames, options, "mtime", "Modified Time")
+
+puts "Writing search"
+write_search(options, filenames, keywords)
