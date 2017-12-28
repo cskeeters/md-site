@@ -13,7 +13,7 @@ begin
 
     if cgi.has_key?("q") && cgi["q"] != nil
 
-        markdown = "# File names matching \\*#{cgi["q"]}\\*\n\n"
+        markdown = "# File names matching *#{cgi["q"]}*\n\n"
 
         matches = Set.new
 
@@ -23,7 +23,7 @@ begin
             matches.add(match)
         end
 
-        markdown += "\n# File contents with #{cgi["q"]}\n\n"
+        markdown += "\n# File contents with *#{cgi["q"]}*\n\n"
 
         for match in `fgrep -il '#{cgi["q"]}' #{config["PAGE_DIR"]}/*`.split
             if not matches.include?(match)
