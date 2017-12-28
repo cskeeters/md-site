@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><%= @converter.options[:SITE_TITLE] %></title>
-    <base href="<%=@converter.options[:SITE_PREFIX]%>/">
+    <title><%=@@site_title%></title>
+    <%=@@base_tag%>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href='css/gridism.css' rel='stylesheet' type='text/css'>
     <link href='css/layout.css' rel='stylesheet' type='text/css'>
@@ -22,14 +22,14 @@
     <header>
         <nav>
             <div style="float:right">
-                <form action='<%=@converter.options[:SITE_PREFIX]%>/search'>
-                Search <input id="search" tabindex="-1" type='text' name='q' value='<%=@converter.options[:search]%>' placeholder='Search (press enter)'/>
+                <form action='<%=@@search_url%>/search'>
+                Search <input id="search" tabindex="-1" type='text' name='q' value='<%=@@search%>' placeholder='Search (press enter)'/>
                 </form>
             </div>
             <div>
-                <a id="home" tabindex="-1" href="/">Home</a> |
-                <a id="alpha" tabindex="-1" href="<%=@converter.options[:SITE_PREFIX]%>/alpha">Alphabetical</a> |
-                <a id="mtime" tabindex="-1" href="<%=@converter.options[:SITE_PREFIX]%>/mtime">Modified Time</a>
+                <a id="home" tabindex="-1" href="<%=@@home_url%>">Home</a> |
+                <a id="alpha" tabindex="-1" href="<%=@@alpha_url%>">Alphabetical</a> |
+                <a id="mtime" tabindex="-1" href="<%=@@mtime_url%>">Modified Time</a>
             </div>
         </nav>
     </header>
@@ -39,7 +39,7 @@
         <div id="content" class="grid unit whole">
 
             <div class="title">
-                <%= @converter.root.metadata["title"] %>
+                <%=@@page_title%>
             </div>
 
             <!--start markdown -->

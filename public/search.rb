@@ -7,7 +7,8 @@ begin
     require 'set'
     require_relative 'md_common'
 
-    config = get_config()
+    set_config()
+    set_template_params()
 
     cgi = CGI.new
 
@@ -17,15 +18,15 @@ begin
 
         matches = Set.new
 
-        #for match in `ls -1 #{config["PAGE_DIR"]}/*'#{cgi["q"]}'*`.split
-        for match in Dir.glob(File.join(config["PAGE_DIR"], "*#{cgi["q"]}*"), File::FNM_CASEFOLD)
+        #for match in `ls -1 #{@page_dir}/*'#{cgi["q"]}'*`.split
+        for match in Dir.glob(File.join(@page_dir, "*#{cgi["q"]}*"), File::FNM_CASEFOLD)
             markdown += "1. [#{File.basename(match)}](#{File.basename(match)})\n"
             matches.add(match)
         end
 
         markdown += "\n# File contents with *#{cgi["q"]}*\n\n"
 
-        for match in `fgrep -il '#{cgi["q"]}' #{config["PAGE_DIR"]}/*`.split
+        for match in `fgrep -il '#{cgi["q"]}' #{@page_dir}/*`.split
             if not matches.include?(match)
                 markdown += "1. [#{File.basename(match)}](#{File.basename(match)})\n"
                 matches.add(match)
@@ -36,14 +37,11 @@ begin
         mardown += "Error: Did not specify search term"
     end
 
-    options = get_kramdown_options(config)
+    options = get_kramdown_options()
     options[:search] = cgi["q"]
     doc = Kramdown::Document.new(markdown, options)
 
-    # Translate filename (LinuxCommands) into default title (Linux Commands)
-    if doc.root.metadata["title"] == nil
-        doc.root.metadata["title"] = config["SITE_TITLE"]+" - Search"
-    end
+    @@page_title = "#{@site_title} - Search"
 
     # Convert Markdown to HTML
     send_html(doc.to_html)

@@ -6,20 +6,18 @@ def send_html(content)
     puts response.force_encoding(Encoding::UTF_8)
 end
 
-def get_config()
-    config = {}
-    config["SITE_PREFIX"] = ENV["SITE_PREFIX"]
-    config["PAGE_DIR"] = ENV["PAGE_DIR"]
-    config["KRAMDOWN_PARSER"] = ENV["KRAMDOWN_PARSER"]
-    config["SITE_TITLE"] = ENV["SITE_TITLE"]
-    config["HOME_PAGE"] = ENV["HOME_PAGE"]
-    return config
+def set_config()
+    @site_prefix = ENV["SITE_PREFIX"]
+    @page_dir = ENV["PAGE_DIR"]
+    @kramdown_parser = ENV["KRAMDOWN_PARSER"]
+    @site_title = ENV["SITE_TITLE"]
+    @home_page = ENV["HOME_PAGE"]
 end
 
-def get_kramdown_options(config)
+def get_kramdown_options()
     options={:template => 'template.erb'}
 
-    options[:input] = config["KRAMDOWN_PARSER"]
+    options[:input] = @kramdown_parser
 
     #rouge syntax_highlighter outputs pygments style html with a highlight
     options[:syntax_highlighter] = 'rouge'
@@ -36,10 +34,24 @@ def get_kramdown_options(config)
     options[:hard_wrap] = true
     options[:smart_quotes] = ["apos", "apos", "quot", "quot"]
 
-    options[:SITE_PREFIX] = config["SITE_PREFIX"]
-    options[:SITE_TITLE] = config["SITE_TITLE"]
     return options
 end
+
+def set_template_params()
+    # Set the class variables for Object
+    # Since the ERB template is run from the Kramdown::Document,
+    # This is an easy way to set simple to use variables
+    @@site_prefix = @site_prefix
+    @@site_title = @site_title
+
+    @@base_tag = "<base href='#{@site_prefix}/'>"
+    @@home_url = "/"
+    @@alpha_url = "#{@site_prefix}/alpha"
+    @@mtime_url = "#{@site_prefix}/mtime"
+    @@search_url = "#{@site_prefix}/search"
+    @@search = ""
+end
+
 
 def get_sort()
     cgi = CGI.new

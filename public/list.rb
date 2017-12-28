@@ -5,14 +5,15 @@ begin
     require 'kramdown'
     require_relative 'md_common'
 
-    config = get_config()
+    set_config()
+    set_template_params()
 
-    entries = Dir.entries(config["PAGE_DIR"])
+    entries = Dir.entries(@page_dir)
 
     if get_sort() == "mtime"
         #sort by mtime
         entries = entries.sort_by do |entry|
-            File.mtime(File.join(config["PAGE_DIR"],entry)).to_i * -1
+            File.mtime(File.join(@page_dir,entry)).to_i * -1
         end
         subtitle="Modified Time"
     else
@@ -23,18 +24,15 @@ begin
 
     markdown = ""
     for entry in entries
-        if File.file?(File.join(config["PAGE_DIR"],entry))
+        if File.file?(File.join(@page_dir,entry))
             markdown += "1. [#{entry}](#{entry})\n"
         end
     end
 
-    options = get_kramdown_options(config)
+    options = get_kramdown_options()
     doc = Kramdown::Document.new(markdown, options)
 
-    # Translate filename (LinuxCommands) into default title (Linux Commands)
-    if doc.root.metadata["title"] == nil
-        doc.root.metadata["title"] = "#{config["SITE_TITLE"]} - #{subtitle}"
-    end
+    @@page_title = "#{@site_title} - #{subtitle}"
 
     # Convert Markdown to HTML
     send_html(doc.to_html)
