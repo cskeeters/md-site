@@ -114,26 +114,6 @@ def write_special(filenames, options, name, subtitle)
     File.open(outputpath, 'w') { |file| file.write(doc.to_html) }
 end
 
-# Search helpers
-class MockConverter
-    attr_accessor :options
-    attr_accessor :root
-end
-class MockRoot
-    attr_accessor :metadata
-end
-
-# Search helper
-# FIXME options may not be necessary with new template
-def gen_converter(options)
-    converter = MockConverter.new()
-    converter.options = options
-    root = MockRoot.new()
-    root.metadata = {"title" => "#{@title} - Search"}
-    converter.root = root
-    return converter
-end
-
 # Search helper
 def gen_json(filenames, keywords)
     files = []
@@ -147,10 +127,6 @@ end
 
 
 def write_search(options, filenames, keywords)
-
-    # Mock converter for kramdown template
-    @converter = gen_converter(options)
-
     # json data about files
     files_json = gen_json(filenames, keywords)
 
