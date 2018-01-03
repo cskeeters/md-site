@@ -15,7 +15,7 @@ def set_config()
 end
 
 def get_kramdown_options()
-    options={:template => 'template.erb'}
+    options={:template => 'body.erb'}
 
     options[:input] = @kramdown_parser
 
@@ -41,15 +41,15 @@ def set_template_params()
     # Set the class variables for Object
     # Since the ERB template is run from the Kramdown::Document,
     # This is an easy way to set simple to use variables
-    @@site_prefix = @site_prefix
-    @@site_title = @site_title
+    @site_prefix = @site_prefix
+    @site_title = @site_title
 
-    @@base_tag = "<base href='#{@site_prefix}/'>"
-    @@home_url = "/"
-    @@alpha_url = "#{@site_prefix}/alpha"
-    @@mtime_url = "#{@site_prefix}/mtime"
-    @@search_url = "#{@site_prefix}/search"
-    @@search = ""
+    @base_tag = "<base href='#{@site_prefix}/'>"
+    @home_url = "/"
+    @alpha_url = "#{@site_prefix}/alpha"
+    @mtime_url = "#{@site_prefix}/mtime"
+    @search_url = "#{@site_prefix}/search"
+    @search = ""
 end
 
 

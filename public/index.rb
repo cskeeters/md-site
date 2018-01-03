@@ -56,13 +56,16 @@ begin
     options = get_kramdown_options()
     doc = Kramdown::Document.new(markdown, options)
 
-    @@page_title = doc.root.metadata["title"]
-    if @@page_title == nil
-        @@page_title = to_title(file)
+    @body = doc.to_html
+
+    @page_title = doc.root.metadata["title"]
+    if @page_title == nil
+        @page_title = to_title(file)
     end
 
-    # Convert Markdown to HTML
-    send_html(doc.to_html)
+    renderer = ERB.new(File.read('template.erb'))
+    html = renderer.result()
+    send_html(html)
 
 rescue ScriptError, StandardError => e
     if ENV["SHOW_DEBUG"] == "True"

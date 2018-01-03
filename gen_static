@@ -47,7 +47,7 @@ end
 
 
 def get_kramdown_options()
-    options={:template => @template}
+    options={:template => "public/body.erb"}
 
     options[:input] = @parser
 
@@ -73,18 +73,18 @@ def set_template_params()
     # Set the class variables for Object
     # Since the ERB template is run from the Kramdown::Document,
     # This is an easy way to set simple to use variables
-    @@site_prefix = @site_prefix
-    @@site_title = @site_title
+    @site_prefix = @site_prefix
+    @site_title = @site_title
 
     # hijack this variable to insert date for versioning purposes
-    @@base_tag = "<meta name='date' content='#{Time::now().to_s}'>"
-    @@home = @home
-    @@home_url = @home
-    @@alpha_url = "alpha"
-    @@mtime_url = "mtime"
-    @@search_url = "search"
+    @base_tag = "<meta name='date' content='#{Time::now().to_s}'>"
+    @home = @home
+    @home_url = @home
+    @alpha_url = "alpha"
+    @mtime_url = "mtime"
+    @search_url = "search"
     # Search will be populated by javascript in statically gen search
-    @@search = ""
+    @search = ""
 end
 
 
@@ -109,9 +109,14 @@ def write_special(filenames, options, name, subtitle)
     # Translate filename (LinuxCommands) into default title (Linux Commands)
     doc.root.metadata["title"] = "#{@title} - #{subtitle}"
 
+    @body = doc.to_html
+
+    renderer = ERB.new(File.read(@template))
+    html = renderer.result()
+
     # Write HTML
     outputpath = "#{@output}/#{name}"
-    File.open(outputpath, 'w') { |file| file.write(doc.to_html) }
+    File.open(outputpath, 'w') { |file| file.write(html) }
 end
 
 # Search helper
@@ -231,13 +236,18 @@ Dir["#{@folder}/*"].each do |filepath|
 
     doc = Kramdown::Document.new(markdown, options)
 
-    @@page_title = doc.root.metadata["title"]
-    if @@page_title == nil
-        @@page_title = to_title(file)
+    @body = doc.to_html
+
+    @page_title = doc.root.metadata["title"]
+    if @page_title == nil
+        @page_title = to_title(file)
     end
 
+    renderer = ERB.new(File.read(@template))
+    html = renderer.result()
+
     # Write HTML
-    File.open(outputpath, 'w') { |file| file.write(doc.to_html) }
+    File.open(outputpath, 'w') { |file| file.write(html) }
 end
 
 puts "Writing alpha"

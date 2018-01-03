@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><%=@@site_title%></title>
-    <%=@@base_tag%>
+    <title><%=@site_title%></title>
+    <%=@base_tag%>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href='css/gridism.css' rel='stylesheet' type='text/css'>
     <link href='css/layout.css' rel='stylesheet' type='text/css'>
@@ -13,8 +13,6 @@
 
     <link href='rouge-css.rb' rel='stylesheet' type='text/css' media="screen">
 
-    <!--link href='css/base16-default.dark.css' rel='stylesheet' type='text/css'-->
-
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/keyboard-binding.js"></script>
 </head>
@@ -22,14 +20,14 @@
     <header>
         <nav>
             <div style="float:right">
-                <form action='<%=@@search_url%>'>
-                Search <input id="search" tabindex="-1" type='text' name='q' value='<%=@@search%>' placeholder='Search (press enter)'/>
+                <form action='<%=@search_url%>'>
+                Search <input id="search" tabindex="-1" type='text' name='q' value='<%=@search%>' placeholder='Search (press enter)'/>
                 </form>
             </div>
             <div>
-                <a id="home" tabindex="-1" href="<%=@@home_url%>">Home</a> |
-                <a id="alpha" tabindex="-1" href="<%=@@alpha_url%>">Alphabetical</a> |
-                <a id="mtime" tabindex="-1" href="<%=@@mtime_url%>">Modified Time</a>
+                <a id="home" tabindex="-1" href="<%=@home_url%>">Home</a> |
+                <a id="alpha" tabindex="-1" href="<%=@alpha_url%>">Alphabetical</a> |
+                <a id="mtime" tabindex="-1" href="<%=@mtime_url%>">Modified Time</a>
             </div>
         </nav>
     </header>
@@ -39,11 +37,11 @@
         <div id="content" class="grid unit whole">
 
             <div class="title">
-                <%=@@page_title%>
+                <%=@page_title%>
             </div>
 
             <!--start markdown -->
-    <%= @body %>
+            <%=@body%>
             <!--end markdown -->
 
         </div>

@@ -32,10 +32,14 @@ begin
     options = get_kramdown_options()
     doc = Kramdown::Document.new(markdown, options)
 
-    @@page_title = "#{@site_title} - #{subtitle}"
+    @body = doc.to_html
 
-    # Convert Markdown to HTML
-    send_html(doc.to_html)
+    @page_title = "#{@site_title} - #{subtitle}"
+
+    renderer = ERB.new(File.read('template.erb'))
+    html = renderer.result()
+    send_html(html)
+
 rescue ScriptError, StandardError => e
     if ENV["SHOW_DEBUG"] == "True"
         print "Content-Type: text/plain\r\n\r\n"
