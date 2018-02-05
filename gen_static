@@ -74,7 +74,7 @@ def set_template_params()
     # Since the ERB template is run from the Kramdown::Document,
     # This is an easy way to set simple to use variables
     @site_prefix = @site_prefix
-    @site_title = @site_title
+    @site_title = @title
 
     # hijack this variable to insert date for versioning purposes
     @base_tag = "<meta name='date' content='#{Time::now().to_s}'>"
@@ -106,9 +106,7 @@ def write_special(filenames, options, name, subtitle)
 
     doc = Kramdown::Document.new(markdown, options)
 
-    # Translate filename (LinuxCommands) into default title (Linux Commands)
-    doc.root.metadata["title"] = "#{@title} - #{subtitle}"
-
+    @page_title = "#{subtitle}"
     @body = doc.to_html
 
     renderer = ERB.new(File.read(@template))
@@ -147,6 +145,7 @@ def write_search(options, filenames, keywords)
     EOF
 
     renderer = ERB.new(File.read(@template))
+    @page_title = "Search"
     search_data = renderer.result()
     outputpath = "#{@output}/search"
     File.open(outputpath, 'w') { |file| file.write(search_data) }
