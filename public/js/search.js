@@ -20,7 +20,7 @@ $(function() {
     for (var i in data.files) {
         file = data.files[i]
         if (file.name.toLowerCase().indexOf(q.toLowerCase()) != -1) {
-            items+="<li><a href='"+file.name+"'>"+file.name+"</a></li>"
+            items+="<li><a href='"+file.name+".htm'>"+file.name+"</a></li>"
         }
     }
     $("#results").append("<ol>"+items+"</ol>");
@@ -31,7 +31,7 @@ $(function() {
     for (var i in data.files) {
         file = data.files[i]
         if (file.keywords.includes(q.toLowerCase())) {
-            items+="<li><a href='"+file.name+"'>"+file.name+"</a></li>"
+            items+="<li><a href='"+file.name+".htm'>"+file.name+"</a></li>"
         }
     }
     $("#results").append("<ol>"+items+"</ol>");

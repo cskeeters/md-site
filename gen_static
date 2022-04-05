@@ -23,6 +23,76 @@ def init_output()
     write_rouge_css()
 end
 
+def is_ext(link)
+    if link =~ /^http:/
+        return true
+    end
+    if link =~ /^https:/
+        return true
+    end
+    if link =~ /^mailto:/
+        return true
+    end
+    if link =~ /^tel:/
+        return true
+    end
+    if link =~ /^file:/
+        return true
+    end
+    if link =~ /^ftp:/
+        return true
+    end
+    return false
+end
+
+def tr_autolink(line)
+    autolink = /<(.*)>/
+    if line.match(autolink)
+        return line.gsub!(autolink) do |m|
+            if is_ext($1)
+                m="<"+$1+">"
+            else
+                m="<"+$1+".htm>"
+            end
+        end
+    else
+        return line
+    end
+end
+
+def tr_link(line)
+    begin
+        link = /\[([^\]]+)\]\(([^)]+)\)/
+        if line.match(link)
+            return line.gsub!(link) do |m|
+                if is_ext($2)
+                    m="["+$1+"]("+$2+")"
+                else
+                    m="["+$1+"]("+$2+".htm)"
+                end
+            end
+        else
+            return line
+        end
+    rescue TypeError
+        puts "error parsing "+line
+    end
+end
+
+def tr_line(line)
+    # puts "B: #{line}"
+    line = tr_autolink(line)
+    line = tr_link(line)
+    # puts "A: #{line}"
+    return line
+end
+
+def add_htm(md)
+    out = ""
+    md.each_line {|s| out += tr_line(s)}
+
+    return out
+end
 
 def get_markdown(filepath)
     if not File.file?(filepath)
@@ -30,7 +100,7 @@ def get_markdown(filepath)
     end
 
     markdown = File.read(filepath, :encoding => 'utf-8')
-    return markdown
+    return add_htm(markdown)
 end
 
 
@@ -79,10 +149,10 @@ def set_template_params()
     # hijack this variable to insert date for versioning purposes
     @base_tag = "<meta name='date' content='#{Time::now().to_s}'>"
     @home = @home
-    @home_url = @home
-    @alpha_url = "alpha"
-    @mtime_url = "mtime"
-    @search_url = "search"
+    @home_url = @home+".htm"
+    @alpha_url = "alpha.htm"
+    @mtime_url = "mtime.htm"
+    @search_url = "search.htm"
     # Search will be populated by javascript in statically gen search
     @search = ""
 end
@@ -101,7 +171,7 @@ end
 def write_special(filenames, options, name, subtitle)
     markdown = ""
     filenames.each do |filename|
-        markdown << "1. [#{filename}](#{filename})\n"
+        markdown << "1. [#{filename}](#{filename}.htm)\n"
     end
 
     doc = Kramdown::Document.new(markdown, options)
@@ -147,7 +217,7 @@ def write_search(options, filenames, keywords)
     renderer = ERB.new(File.read(@template))
     @page_title = "Search"
     search_data = renderer.result()
-    outputpath = "#{@output}/search"
+    outputpath = "#{@output}/search.htm"
     File.open(outputpath, 'w') { |file| file.write(search_data) }
 end
 
@@ -226,7 +296,7 @@ Dir["#{@folder}/*"].each do |filepath|
 
     file = File.basename(filepath)
     filenames.push(file)
-    outputpath = "#{@output}/#{file}"
+    outputpath = "#{@output}/#{file}.htm"
 
     puts "Writing: #{outputpath}"
 
@@ -251,11 +321,11 @@ end
 
 puts "Writing alpha"
 filenames.sort!
-write_special(filenames, options, "alpha", "Alphabetical")
+write_special(filenames, options, "alpha.htm", "Alphabetical")
 
 puts "Writing mtime"
 filenames.sort_by! { |filename| - File.mtime("#{@folder}/#{filename}").to_i }
-write_special(filenames, options, "mtime", "Modified Time")
+write_special(filenames, options, "mtime.htm", "Modified Time")
 
 puts "Writing search"
 write_search(options, filenames, keywords)
