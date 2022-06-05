@@ -6,7 +6,7 @@ require 'rouge'
 require 'erb'
 require 'json'
 require 'set'
-
+require 'kramdown-metadata-parsers'
 
 def write_rouge_css()
     rougecss = Rouge::Themes::Base16.mode(:dark).render(scope: 'div.highlighter-rouge')
