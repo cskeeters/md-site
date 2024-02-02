@@ -126,6 +126,7 @@ Save this in /etc/httpd/sites or /etc/http/extras and make sure it's included in
         RewriteRule search$ search.rb [L,PT]
 
         RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png)$ [NC]
+        RewriteCond %{REQUEST_URI} !^gem_test.rb$ [NC]
         RewriteRule ^/$ index.rb?file=HOME_PAGE [B,L,PT]
         RewriteRule ^([^\.]+)$ index.rb?file=$1 [B,L,PT]
         RewriteRule ^([^\.]+.md)$ index.rb?file=$1 [B,L,PT]
