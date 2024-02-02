@@ -54,7 +54,7 @@ Save this in /etc/httpd/sites or /etc/http/extras and make sure it's included in
 
         # Determine this by running:
         #   gem env gemdir
-        SetEnv GEM_PATH "/usr/local/lib/ruby/gems/2.3.0"
+        SetEnv GEM_PATH "/usr/local/lib/ruby/gems/3.5.5"
 
         # Set to /sub/path if this is a sub app
         SetEnv SITE_PREFIX ""
@@ -84,7 +84,7 @@ Save this in /etc/httpd/sites or /etc/http/extras and make sure it's included in
         ServerName notes.example.com
         DocumentRoot "/var/www/md-site/public"
         ErrorLog "/private/var/log/apache2/notes-example_error_log"
-        SetEnv GEM_PATH "/usr/local/lib/ruby/gems/2.3.0"
+        SetEnv GEM_PATH "/usr/local/lib/ruby/gems/3.5.5"
         SetEnv SITE_PREFIX ""
         SetEnv PAGE_DIR "/var/notes"
         SetEnv KRAMDOWN_PARSER "MetadataGFM"
