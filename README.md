@@ -22,13 +22,13 @@ The is defined by the KRAMDOWN_PARSER environment varible.  If MetadataGFM is us
 
 # Installation
 
-    gem install kramdown kramdown-metadata-parsers rouge
+    gem install kramdown kramdown-parser-gfm kramdown-metadata-parsers rouge rexml
 
 ## Offline Installation
 
 Download the required gems from a computer with internet access.  This command downloads the `.gem` files in the current directory.
 
-    gem fetch kramdown kramdown-metadata-parsers rouge
+    gem fetch kramdown kramdown-metadata-parsers rouge rexml
 
 Copy the `.gem` files to the computer without internet access and install.
 
