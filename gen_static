@@ -23,7 +23,7 @@ def init_output()
     write_rouge_css()
 end
 
-def is_ext(link)
+def is_external(link)
     if link =~ /^http:/
         return true
     end
@@ -49,7 +49,7 @@ def tr_autolink(line)
     autolink = /<(.*)>/
     if line.match(autolink)
         return line.gsub!(autolink) do |m|
-            if is_ext($1)
+            if is_external($1)
                 m="<"+$1+">"
             else
                 m="<"+$1+".htm>"
@@ -62,17 +62,28 @@ end
 
 def tr_link(line)
     begin
-        link = /\[([^\]]+)\]\(([^)]+)\)/
-        if line.match(link)
-            return line.gsub!(link) do |m|
-                if is_ext($2)
-                    m="["+$1+"]("+$2+")"
+        linkHash = /\[([^\]]+)\]\(([^#]+)(#[^)]+)\)/
+        if line.match(linkHash)
+            return line.gsub!(linkHash) do |m|
+                if is_external($2)
+                    m="["+$1+"]("+$2+$3+")"
                 else
-                    m="["+$1+"]("+$2+".htm)"
+                    m="["+$1+"]("+$2+".htm"+$3+")"
                 end
             end
         else
-            return line
+            link = /\[([^\]]+)\]\(([^)]+)\)/
+            if line.match(link)
+                return line.gsub!(link) do |m|
+                    if is_external($2)
+                        m="["+$1+"]("+$2+")"
+                    else
+                        m="["+$1+"]("+$2+".htm)"
+                    end
+                end
+            else
+                return line
+            end
         end
     rescue TypeError
         puts "error parsing "+line
