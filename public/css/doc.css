@@ -1,5 +1,5 @@
 /* Anything with font-family should be at the top */
-body {
+:root {
     font-family:"Noto Sans", "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
     font-size:12pt;
     color:#333;
@@ -126,6 +126,9 @@ kbd {
     }
 
     @page {
+        size: letter portrait;
+        /*margin:4.0cm;*/
+
         counter-increment: page;
         counter-reset: page 1;
         @bottom-right {
@@ -133,10 +136,6 @@ kbd {
         }
     }
 
-    @page {
-        size: letter portrait;
-        /*margin:4.0cm;*/
-    }
     body {
         margin:1cm;
     }
