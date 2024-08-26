@@ -45,6 +45,20 @@ def is_external(link)
     return false
 end
 
+def detect_fenced_code_block(line)
+    if line.start_with?("```")
+        $fenced_code_block = ! $fenced_code_block
+    end
+end
+
+def detect_code_line(line)
+    if line.start_with?("    ")
+        return true
+    end
+
+    return false
+end
+
 def tr_autolink(line)
     autolink = /<(.*)>/
     if line.match(autolink)
@@ -91,10 +105,15 @@ def tr_link(line)
 end
 
 def tr_line(line)
-    # puts "B: #{line}"
-    line = tr_autolink(line)
-    line = tr_link(line)
-    # puts "A: #{line}"
+    detect_fenced_code_block(line)
+    if ! $fenced_code_block
+        if ! detect_code_line(line)
+            # puts "B: #{line}"
+            line = tr_autolink(line)
+            line = tr_link(line)
+            # puts "A: #{line}"
+        end
+    end
     return line
 end
 
