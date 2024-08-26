@@ -9,7 +9,7 @@ require 'set'
 require 'kramdown-metadata-parsers'
 
 def write_rouge_css()
-    rougecss = Rouge::Themes::Base16.mode(:dark).render(scope: 'div.highlighter-rouge')
+    rougecss = Rouge::Themes::Github.render(scope: 'div.highlighter-rouge')
     outputpath = "#{@output}/css/rouge.css"
     File.open(outputpath, 'w') { |file| file.write(rougecss) }
 end
@@ -307,6 +307,17 @@ def check_opts()
     end
 end
 
+def tr_rouge(s)
+    s.sub! 'rouge-css.rb', 'css/rouge.css'
+    return s
+end
+
+def modify_rouge(template_contents)
+    out = ""
+    template_contents.each_line {|s| out += tr_rouge(s)}
+    return out
+end
+
 ## main ##
 
 set_opts()
@@ -342,7 +353,9 @@ Dir["#{@folder}/*"].each do |filepath|
         @page_title = to_title(file)
     end
 
-    renderer = ERB.new(File.read(@template))
+    template_contents = File.read(@template)
+    template_contents = modify_rouge(template_contents)
+    renderer = ERB.new(template_contents)
     html = renderer.result()
 
     # Write HTML
