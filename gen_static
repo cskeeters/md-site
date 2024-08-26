@@ -16,9 +16,9 @@ end
 
 
 def init_output()
-    ret = `mkdir -p   #{@output}/`
-    ret = `cp -rp public/css #{@output}/`
-    ret = `cp -rp public/js  #{@output}/`
+    ret = `mkdir -p   "#{@output}/"`
+    ret = `cp -rp public/css "#{@output}/"`
+    ret = `cp -rp public/js  "#{@output}/"`
 
     write_rouge_css()
 end
