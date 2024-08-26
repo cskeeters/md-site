@@ -17,7 +17,7 @@ div.highlighter-rouge pre code {
 div.highlighter-rouge  {
     font-family: Menlo, Consolas, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", monospace;
     /*font-family: Consolas, monospace;*/
-    font-size: 15px;
+    font-size: .8em;
     line-height: 1.5;
     overflow: auto;
 }
@@ -79,7 +79,7 @@ blockquote {
 kbd {
     padding: 0.1em 0.6em;
     border: 1px solid #ccc;
-    font-size: 11px;
+    font-size: .9em;
     font-family: Arial,Helvetica,sans-serif;
     background-color: #f7f7f7;
     color: #333;
@@ -111,7 +111,7 @@ kbd {
 
 @media print {
     body {
-        font-size:10pt;
+        font-size:8pt;
     }
 
     #heading {
@@ -146,7 +146,6 @@ kbd {
             margin: 10pt 0 30pt 0;
             border-top: .25pt solid #666;
             content: "My book";
-            font-size: 9pt;
             color: #333;
         }
     }
