@@ -1,5 +1,16 @@
 #!/usr/bin/env ruby
 
+# /opt/homebrew/Cellar/ruby/3.4.7/lib/ruby/3.4.0/psych/class_loader.rb:99:in
+# 'Psych::ClassLoader::Restricted#find': Tried to load unspecified class: Date (Psych::DisallowedClass)
+#
+# https://github.com/plexus/kramdown-metadata-parsers/pull/1
+#
+# /opt/homebrew/lib/ruby/gems/3.4.0/gems/kramdown-metadata-parsers-0.9.0/lib
+# kramdown-metadata-parsers.rb:
+#
+#         metadata = YAML.safe_load(preamble,
+#                                   permitted_classes: [Date, Time, Symbol])
+
 require 'getoptlong'
 require 'kramdown'
 require 'rouge'
