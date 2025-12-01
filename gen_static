@@ -335,6 +335,11 @@ Dir["#{@folder}/*"].each do |filepath|
     # Skip Folders
     next if File.directory? filepath
 
+    next if File.extname(filepath).downcase == '.htm'
+    next if File.extname(filepath).downcase == '.html'
+    next if File.extname(filepath).downcase == '.typ'
+    next if File.extname(filepath).downcase == '.pdf'
+
     file = File.basename(filepath)
     filenames.push(file)
     outputpath = "#{@output}/#{file}.htm"
