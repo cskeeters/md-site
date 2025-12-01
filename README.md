@@ -14,7 +14,7 @@ When focused in the body of the browser, the following keys are bound:
 
 # Syntax
 
-The is defined by the KRAMDOWN_PARSER environment varible.  If MetadataGFM is used, then the syntax follows [GitHub Flavored Markdown](https://help.github.com/articles/basic-writing-and-formatting-syntax/), and supports custom titles via [Jekyll-style front matter](https://jekyllrb.com/docs/frontmatter/).
+The syntax is defined by the environment variable `KRAMDOWN_PARSER`.  If `MetadataGFM` is used, then the syntax follows [GitHub Flavored Markdown](https://help.github.com/articles/basic-writing-and-formatting-syntax/), and supports custom titles via [Jekyll-style front matter](https://jekyllrb.com/docs/frontmatter/).
 
 # Static Generation
 
