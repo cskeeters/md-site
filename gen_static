@@ -6,6 +6,7 @@ require 'rouge'
 require 'erb'
 require 'json'
 require 'set'
+require 'kramdown-parser-gfm'
 require 'kramdown-metadata-parsers'
 
 def write_rouge_css()
