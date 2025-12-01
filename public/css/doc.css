@@ -5,9 +5,22 @@
     color:#333;
 }
 
+pre {
+    font-family: Menlo, Consolas, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", monospace;
+    font-size: .8em;
+
+    background: #F6F6F6;
+    color: #333;
+    border-radius: 5px;
+
+    margin: .2em .5em;
+    padding: .8em;
+
+    line-height: 1.5;
+}
+
 div.highlighter-rouge pre {
     font-family: inherit;
-    margin: 0 0;
 }
 
 div.highlighter-rouge pre code {
@@ -15,10 +28,6 @@ div.highlighter-rouge pre code {
 }
 
 div.highlighter-rouge  {
-    font-family: Menlo, Consolas, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", monospace;
-    /*font-family: Consolas, monospace;*/
-    font-size: .8em;
-    line-height: 1.5;
     overflow: auto;
 }
 
@@ -134,10 +143,6 @@ kbd {
         @bottom-right {
             content: "Page " counter(page);
         }
-    }
-
-    body {
-        margin:1cm;
     }
 
     @page:right {
